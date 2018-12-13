@@ -36,7 +36,7 @@ function Product({ product }) {
           <Link to={`/product/${product.uuid}`}>
             <img alt="" className="img-thumbnail" src={`/api/v1/demo/webroot${product.fields.vehicleImage.path}?w=328`} />
           </Link>
-          <p className="description">{product.fields.description}</p>
+          <div className="description" dangerouslySetInnerHTML={{__html: product.fields.description}}></div>
 
           <hr />
 
