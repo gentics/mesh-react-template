@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import WelcomeScreen from './WelcomeScreen';
-import ProductList from './ProductList';
-import ProductDetail from './ProductDetail';
+import Category from './Category';
+import Vehicle from './Vehicle';
 import { useWebroot } from './api';
 
 export default function Content() {
@@ -15,8 +15,8 @@ export default function Content() {
 }
 
 const NodeComponents = {
-  "category": ProductList,
-  "vehicle": ProductDetail
+  "category": Category,
+  "vehicle": Vehicle
 }
 
 const WebrootContent = ({location}) => {

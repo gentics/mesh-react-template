@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function ProductDetail({node}) {
+export default function Vehicle({node}) {
   return (
     <div className="product-detail">
       <h1>{node.fields.name}</h1>
@@ -14,7 +14,7 @@ export default function ProductDetail({node}) {
 
             <div className="form-group">
               <label htmlFor="description">Description</label>
-              <textarea className="form-control" id="description" name="description" placeholder="Description" defaultValue={node.fields.description} rows="7"></textarea>
+              <div dangerouslySetInnerHTML={{__html: node.fields.description}}></div>
             </div>
 
             <div className="form-group">

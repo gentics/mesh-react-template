@@ -52,7 +52,7 @@ fragment category on Node {
         ... on vehicle {
           name
           weight
-          description
+          description(linkType: SHORT)
           SKU
           price
           stocklevel
@@ -70,7 +70,7 @@ fragment product on Node {
   fields {
     ... on vehicle {
       name
-      description
+      description(linkType: SHORT)
       SKU
       price
       weight
