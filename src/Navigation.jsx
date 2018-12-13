@@ -25,7 +25,7 @@ export default function Navigation() {
 function NavElement({ category }) {
   return (
     <li>
-      <Link to={`/category/${category.uuid}`}>
+      <Link to={category.path}>
         {category.fields.name}
       </Link>
     </li>

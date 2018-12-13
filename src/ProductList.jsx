@@ -1,20 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { usePromise, getProducts } from './api';
 
-export default function ProductList({ match }) {
-  const uuid = match.params.uuid;
-  const productResponse = usePromise(() => getProducts(uuid), [uuid])
-  if (!productResponse) {
-    return null;
-  }
-  const category = productResponse.node;
+export default function ProductList({ node }) {
   return (
     <div className="product-list">
-      <h1>{category.fields.name}</h1>
-      <p>{category.fields.description}</p>
+      <h1>{node.fields.name}</h1>
+      <p>{node.fields.description}</p>
       <div className="row">
-        {category.children.elements.map(product => (
+        {node.children.elements.map(product => (
           <Product product={product} key={product.uuid} />
         ))}
       </div>
@@ -28,12 +21,12 @@ function Product({ product }) {
       <div className="panel panel-default">
         <div className="panel-body">
           <h3>
-            <Link to={`/product/${product.uuid}`}>{product.fields.name}</Link>
+            <Link to={product.path}>{product.fields.name}</Link>
             {" "}
             <small>{product.fields.SKU}</small>
           </h3>
 
-          <Link to={`/product/${product.uuid}`}>
+          <Link to={product.path}>
             <img alt="" className="img-thumbnail" src={`/api/v1/demo/webroot${product.fields.vehicleImage.path}?w=328`} />
           </Link>
           <div className="description" dangerouslySetInnerHTML={{__html: product.fields.description}}></div>

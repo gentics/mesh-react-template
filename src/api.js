@@ -7,6 +7,7 @@ export async function getNavigation() {
         children(filter: {schema: {is: category}}) {
           elements {
             uuid
+            path
             fields {
               ... on category {
                 name
@@ -19,50 +20,41 @@ export async function getNavigation() {
   }`);
 }
 
-export async function getProducts(uuid) {
-  return graphQl(`
-  query Products($uuid:String) {
-    node(uuid:$uuid) {
-      fields {
-        ... on category {
-          name
-          description
-        }
+export function useWebroot(path) {
+  return usePromise(() => graphQl(`
+  query Webroot($path: String) {
+    node(path: $path) {
+      schema {
+        name
       }
-      children {
-        elements {
-          uuid
-          fields {
-            ... on vehicle {
-              name
-              weight
-              description
-              SKU
-              price
-              stocklevel
-              vehicleImage {
-                path
-              }
-            }
-          }
-        }
-      }
+      ...category
+      ...product
     }
   }
-  `, {uuid});
+  ${categoryFragment}
+  ${productFragment}
+  `, {path}).then(response => response.node), [path])
 }
 
-export function getProduct(uuid) {
-  return graphQl(`
-  query Product($uuid: String) {
-    node(uuid: $uuid) {
+const categoryFragment = `
+fragment category on Node {
+  fields {
+    ... on category {
+      name
+      description
+    }
+  }
+  children {
+    elements {
+      uuid
+      path
       fields {
         ... on vehicle {
           name
+          weight
           description
           SKU
           price
-          weight
           stocklevel
           vehicleImage {
             path
@@ -71,8 +63,24 @@ export function getProduct(uuid) {
       }
     }
   }
-  `, {uuid});
-}
+}`
+
+const productFragment = `
+fragment product on Node {
+  fields {
+    ... on vehicle {
+      name
+      description
+      SKU
+      price
+      weight
+      stocklevel
+      vehicleImage {
+        path
+      }
+    }
+  }
+}`
 
 export function getProject() {
   return get(`/demo`)
